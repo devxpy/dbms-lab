@@ -33,6 +33,7 @@ CREATE OR REPLACE PROCEDURE AVGMARKS IS
     CURSOR C_IAMARKS IS
         SELECT TEST1, TEST2, TEST3
         FROM IAMARKS
+        WHERE FINALIA IS NULL
         FOR UPDATE;
     
     T1 NUMBER; 
@@ -47,8 +48,8 @@ CREATE OR REPLACE PROCEDURE AVGMARKS IS
             FETCH C_IAMARKS INTO T1, T2, T3;
             EXIT WHEN C_IAMARKS%NOTFOUND; 
             
-            TSUM := T1 + T2 + T3 - LEAST(T1, T2, T3); 
-            TAVG := TSUM / 2; 
+            TSUM := T1 + T2 + T3; 
+            TAVG := TSUM / 3; 
 
             UPDATE IAMARKS 
             SET FINALIA = TAVG 
